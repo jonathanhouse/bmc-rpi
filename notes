@@ -1,0 +1,108 @@
+
+Main tutorial - has some errors for RPI 4 
+https://github.com/BrianSidebotham/arm-tutorial-rpi/blob/master/card/make_card.sh
+
+Official RPI documentation - has some good stuff - says specifically to use `kernel7l.img` for RPI4 in 32b mode
+https://www.raspberrypi.com/documentation/computers/config_txt.html#what-is-config-txt
+
+Linux RPI repo - gave correct info about ACT LED being active high and on pin 42
+https://github.com/raspberrypi/linux/tree/rpi-4.19.y/arch/arm/boot/dts
+
+Tutorial useful for BMC specific to RPI4
+https://github.com/babbleberry/rpi4-osdev/tree/master
+
+1. Install a ARM GNU Toolchain from https://developer.arm.com/downloads/-/gnu-rm
+
+- used 10.3-2021.10 MacOSX pkg 
+- installs executable "arm-none-eabi-gcc" in /Applications/ARM/bin 
+- add bin folder to path by going to "/etc/paths", run sudo nano here, add to end of path, and then open a new terminal - permanently adds to PATH (see echo $PATH) 
+
+2. For RPI4, processors are cortex-A72 -> follows armv8-a arch
+- for this arch, we use floating point unit (crypto-neon-fp-armv8)
+
+Flags: 
+-O2 -mfpu=crypto-neon-fp-armv8 -mfloat-abi=hard -march=armv8-a+crc -mcpu=cortex-a72
+
+3. To compile we can use 
+
+arm-none-eabi-gcc -O2 -mfpu=crypto-neon-fp-armv8 -mfloat-abi=hard -march=armv8-a+crc -mcpu=cortex-a72 -nostartfiles *.c -o kernel.blink.elf
+
+4. Naively compiling simple main program with while loop fails with error 
+
+exit.c:(.text.exit+0x1c): undefined reference to `_exit'
+
+Missing symbol _exit - is a sys call - C library requires we link to this
+
+Because we'll handle start up of code, we can just use `-nostartfiles`, which removes the need for exit sys call too 
+
+5. RPi4B uses BCM2711 from Broadcom - has two processors (Videocore CPU, ARM core)
+https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf
+
+
+- procs share a peripheral bus and interrupt resources - GPU steals some IRQs
+At power-on: 
+a. GPU starts running and has code to read first FAT partition of SD card 
+    on the EMMC (External Mass Media Controller) bus (allows interfacing w SD)
+b. Searches for and loads files called bootcode.bin into its memory and starts 
+executing that bin file
+c. bootcode.bin 's bootloader searches SD card for file called start.elf and
+config.txt - start.elf has code that runs on GPU to provide OpenGL reqs
+d. Searches for file called kernel.img which it loads into memory (at 0x8000)
+and starts ARM processor executing at this location
+
+---> On SD card, need to put code as kernel.img and 
+need to include GPU reqs (bootcode.bin, start.elf)
+
+6. To get these things, we look at Raspberry Pi firmware 
+https://github.com/raspberrypi/firmware
+Under boot, we boot/bootcode.bin and boot/start.elf 
+Rest of files are Linux compiled accelerated graphics drivers which we don't 
+need since we're not even using Linux OS
+
+- Nicely, this bootloader code sets up clock sources and PLL (phase-locked loop?)
+through the GPU
+
+7. ARM arch stuff
+
+ARM Physical addresses are used when ARM Memory Management Unit (MMU) are 
+not being used - otherwise, we're interested in virtual address space 
+
+Before OS kernel is running, MMU is also not running and core is in kernel mode 
+Address on bus are accessed using ARM physical addresses 
+
+RPI4 peripheral base mapped to `0xFE000000`
+
+8. GPIO setup
+
+GPIO peripheral at 0xFE200000 for RPI4 -> maps to GPIO Function Select 4 reg
+To use an IO pin, we need to config GPIO peripheral
+Wired to Pin 42 - active high
+Need to set pin as output using corresponding GPIO Function Select reg
+Here, docs say to use GPIO Function Select 4 bits 8:6 and write as "001" for
+it to be an output
+
+We can take a C pointer to this register to write a value here 
+Must mark as 'volatile' so that compiler does explicitly what we say
+Otherwise, compiler will see that we don't access register again and so 
+thinks we write here won't be used by program and optimiser can throw away 
+the write command 
+
+ARM GPIO has a SET and CLEAR register 
+Setting the corresponding bit in either register to 1 (high) will either
+SET or CLEAR the actual GPIO pins correspondingly 
+
+9. ELF is an executable wrapped with info that an OS binary loader may need
+For binary ARM executable we only want machine code so use objcopy
+
+arm-none-eabi-objcopy kernel.blink.elf -O binary kernel7l.img 
+
+10. ** Tutorial inconsistent here ** 
+a. To get this to work, first write the latest version of RPi OS to an SD 
+b. On here, remove (backup) all files starting with `kernel`. 
+c. In config, can add an option 'arm_64bit=0' to use 32b mode. If using this, must name starting kernel to `kernel7l.img`
+Alternatively, can use (default) option `arm_64bit=1` to use 64b mode. If so start kernel must be named `kernel8.img`. Additionally,
+code must be modified to use this addressing scheme (can't use unsigned ints as base)
+d. Insert SD into RPI - probably will flicker LEDs initially (from GPU), but after should do what the program says
+
+11. 
