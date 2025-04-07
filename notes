@@ -11,6 +11,10 @@ https://github.com/raspberrypi/linux/tree/rpi-4.19.y/arch/arm/boot/dts
 Tutorial useful for BMC specific to RPI4
 https://github.com/babbleberry/rpi4-osdev/tree/master
 
+ARMv8 Instruction Quick Reference 
+https://courses.cs.washington.edu/courses/cse469/19wi/arm64.pdf
+
+
 1. Install a ARM GNU Toolchain from https://developer.arm.com/downloads/-/gnu-rm
 
 - used 10.3-2021.10 MacOSX pkg 
@@ -29,7 +33,7 @@ arm-none-eabi-gcc -O2 -mfpu=crypto-neon-fp-armv8 -mfloat-abi=hard -march=armv8-a
 
 4. Naively compiling simple main program with while loop fails with error 
 
-exit.c:(.text.exit+0x1c): undefined reference to `_exit'
+exit.c:(.text.exit+0x1c): undefined reference to `_exit'in
 
 Missing symbol _exit - is a sys call - C library requires we link to this
 
@@ -105,4 +109,9 @@ Alternatively, can use (default) option `arm_64bit=1` to use 64b mode. If so sta
 code must be modified to use this addressing scheme (can't use unsigned ints as base)
 d. Insert SD into RPI - probably will flicker LEDs initially (from GPU), but after should do what the program says
 
-11. 
+
+
+https://github.com/TerminalCursor/Jobbed/blob/modular/usr/main.c
+See usr/main.c and do something like SysTimer -> subscribe to IRQ with callback to some function, here delaytest (usr/test.c)
+“irqs” in kernel/global.c
+
