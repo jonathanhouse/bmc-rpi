@@ -8,7 +8,7 @@ https://www.raspberrypi.com/documentation/computers/config_txt.html#what-is-conf
 Linux RPI repo - gave correct info about ACT LED being active high and on pin 42
 https://github.com/raspberrypi/linux/tree/rpi-4.19.y/arch/arm/boot/dts
 
-Tutorial useful for BMC specific to RPI4
+Tutorial useful for BCM specific to RPI4
 https://github.com/babbleberry/rpi4-osdev/tree/master
 
 ARMv8 Instruction Quick Reference 
@@ -43,6 +43,8 @@ Because we'll handle start up of code, we can just use `-nostartfiles`, which re
 https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
 https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf
 
+irq rpi4 gic-400 fix
+https://github.com/s-matyukevich/raspberry-pi-os/issues/237
 
 - procs share a peripheral bus and interrupt resources - GPU steals some IRQs
 At power-on: 
@@ -114,4 +116,6 @@ d. Insert SD into RPI - probably will flicker LEDs initially (from GPU), but aft
 https://github.com/TerminalCursor/Jobbed/blob/modular/usr/main.c
 See usr/main.c and do something like SysTimer -> subscribe to IRQ with callback to some function, here delaytest (usr/test.c)
 “irqs” in kernel/global.c
+
+
 

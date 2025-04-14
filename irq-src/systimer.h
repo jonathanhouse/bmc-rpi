@@ -19,7 +19,8 @@ struct systimer_regs {
 #define REGS_SYSTIMER ((struct systimer_regs *)(PERIPHERAL_BASE + SYSTIMER_BASE_REG))
 
 void handle_timer_1();
-void timer_init();
+void handle_timer_2();
+void timer_init(unsigned int timer_num, unsigned int timer_period);
 // void handle_timer_3();
 
 #endif

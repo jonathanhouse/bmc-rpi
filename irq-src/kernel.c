@@ -9,7 +9,11 @@ void main(void)
     irq_barrier();
     // GPIO_REGS->gpfsel4 = 0b001 << 6;
     gpio_fselect(0b001, ACT_LED_GPIO); // 0b001 -> output mode 
-    timer_init(); 
+
+    gpio_fselect(0b001, TEST_LED);
+
+    timer_init(1,CLOCKHZ/10); // 1s
+    timer_init(2,CLOCKHZ/100); // 100ms
     // setup_armtimer();
 
     irq_enable();

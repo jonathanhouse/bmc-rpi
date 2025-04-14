@@ -1,0 +1,20 @@
+
+
+system timer vs arm local timer - 
+arm local is based on sys, so we prefer sys for more precision 
+
+54MHz by default 
+
+IRQ Method - Single LED 
+"CLOCKHZ"       Avg. Scope High Time          Min            Max            Std Dev High     Avg Period   Min       Max      Std Dev   
+ 100,000              100.0ms               99.61ms         100.2ms          219.us             200ms      199.8ms   200.0     5-30us   Notes: windows oscillate between 100.2/99.8 ms widths, std dev for period goes down to 5 then springs up to 30ms
+
+ 10,000                 10.05ms                9.78ms           10.23ms      210us            20ms      19.96ms    20ms     200ns-3us
+notes: 50KSamples/s, 20ms view, 10Kpoints 
+ 1,000                 1ms                     990.4us         1.016ms      8.8us            2ms     1.992ms    2ms 200ns-2us         
+ notes: 250KsS/s, 4m view, 10K points
+
+ 100                    100us                  98.32us         101.7us      900ns             200us     199.2us     200.8us     180ns
+ notes: 2.5MS/s, 400us, 10K
+
+ 10                     10us                   9.665us          10.33us     150s            20us        19.76us      20.32us    140ns

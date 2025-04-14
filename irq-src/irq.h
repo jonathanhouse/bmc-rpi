@@ -5,7 +5,7 @@
 #include "gic-400.h"
 #include "systimer.h"
 
-// ARMC Registers - see "BMC2711 ARM Peripherals" Sec 6.5.3 Table 117
+// ARMC Registers - see "BCM2711 ARM Peripherals" Sec 6.5.3 Table 117
 struct arm_irq_regs_2711 {
     volatile unsigned int irq0_pending_0;
     volatile unsigned int irq0_pending_1;
@@ -30,7 +30,7 @@ typedef struct arm_irq_regs_2711 arm_irq_regs;
 #define ARMC_INIT_OFFSET 0x200UL
 #define REGS_IRQ ((arm_irq_regs *)(PERIPHERAL_BASE + ARMC_REG_BASE + ARMC_INIT_OFFSET))
 
-// VideoCore GPU IRQs: BMC2711 ARM Peripherals" Sec 6.2.4 Table 102. Says 4 IRQs come from System Timer Ch. 10
+// VideoCore GPU IRQs: BCM2711 ARM Peripherals" Sec 6.2.4 Table 102. Says 4 IRQs come from System Timer Ch. 10
 enum vc_irqs { 
     SYS_TIMER_IRQ_0 = 1 << 0,
     SYS_TIMER_IRQ_1 = 1 << 1,

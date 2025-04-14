@@ -5,9 +5,10 @@
 #include "base.h"
 
 #define ACT_LED_GPIO_BIT 10
-#define ACT_LED_GPIO 42
+#define ACT_LED_GPIO 27 //42 real
+#define TEST_LED 42
 
-// GPIO Register View. See "BMC2711 ARM Peripherals" Sec 5.2 page 66
+// GPIO Register View. See "BCM2711 ARM Peripherals" Sec 5.2 page 66
 #define GPIO_OFFSET 0x200000UL
 struct arm_2711_gpio_regs {
     volatile unsigned int gpfsel0;      /* GPIO Function Select 0: offset=0x00 */

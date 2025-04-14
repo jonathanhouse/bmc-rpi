@@ -2,19 +2,30 @@
 #define __GIC_400_H__
 
 /* CoreLink GIC-400 Generic Interrupt Controller */
+// https://developer.arm.com/documentation/ddi0471/b/programmers-model/gic-400-register-map?lang=en (A*)
+
+// https://developer.arm.com/documentation/ihi0048/bb/?lang=enf - register layouts for GIC-400 V2 (B*)
+
+// interrupts IDs : see 2.2.1 (B*), shared peripheral interrupt (SPIs) - which are what we're using for VC INTs - 
+// are mapped to ID32 -> ID1019. Also know from BCM2711 Peripheral Docs that VC's SPI_96-SPI_159  <=> ID128-ID190
+
 
 #define GIC400_BASE 0xFF840000UL // 0x4c0040000 //
 
-#define GICD_DIST_BASE (GIC400_BASE+0x00001000)
+#define GICD_DIST_BASE (GIC400_BASE+0x00001000) // See Table 3.1 (A*)
 #define GICC_CPU_BASE (GIC400_BASE+0x00002000)
 
-#define GICD_ENABLE_IRQ_BASE (GICD_DIST_BASE+0x00000100)
+#define GICD_ENABLE_IRQ_BASE (GICD_DIST_BASE+0x00000100) // See Distributor Register Summary Table 3.2 (A*)
 
 #define GICC_IAR (GICC_CPU_BASE+0x0000000C)
 #define GICC_EOIR (GICC_CPU_BASE+0x00000010)
+#define GICC_CTLR (GICC_CPU_BASE+0x00000000)
+#define GICC_PMR (GICC_CPU_BASE+0x00000004)
+
+#define GICD_CTLR (GICD_DIST_BASE+0x00000000)
 
 #define GIC_IRQ_TARGET_BASE (GICD_DIST_BASE+0x00000800)
-
+ 
 
 /* Register bit definitions */
 #define GIC400_CTL_ENABLE ( 1 << 0 )
