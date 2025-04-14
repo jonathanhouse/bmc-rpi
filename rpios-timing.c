@@ -55,6 +55,9 @@ int main(){
 
 
     while(1);
+    free(gpio_pin);
+    free(gpio_pin2);
+
     return 1;
 
 }

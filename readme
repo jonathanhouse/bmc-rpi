@@ -1,0 +1,11 @@
+## Raspberry Pi OS Instructions 
+
+Using the library pigpio, we can set callbacks to schedule jobs. To compile 
+this program use: 
+```
+gcc rpios-timing.c -lpigpio
+```
+And to install this library, one can simply use: 
+```
+sudo apt-get install pigpio
+```
