@@ -7,14 +7,40 @@ arm local is based on sys, so we prefer sys for more precision
 
 IRQ Method - Single LED 
 "CLOCKHZ"       Avg. Scope High Time          Min            Max            Std Dev High     Avg Period   Min       Max      Std Dev   
- 100,000              100.0ms               99.61ms         100.2ms          219.us             200ms      199.8ms   200.0     5-30us   Notes: windows oscillate between 100.2/99.8 ms widths, std dev for period goes down to 5 then springs up to 30ms
+ 100,000              100.0ms                  99.61ms         100.2ms          219.us             200ms      199.8ms   200.0     5-30us   
+ 10,000               10.05ms                9.78ms           10.23ms      210us               20ms      19.96ms    20ms     200ns-3us
+ 1,000                  1ms                     990.4us         1.016ms      8.8us            2ms       1.992ms    2ms 200ns-2us         
+ 100                   100us                  98.32us         101.7us      900ns             200us       199.2us     200.8us     180ns
+ 10                    110us                   9.665us          10.33us     150s            20us        19.76us      20.32us    140ns
 
- 10,000                 10.05ms                9.78ms           10.23ms      210us            20ms      19.96ms    20ms     200ns-3us
-notes: 50KSamples/s, 20ms view, 10Kpoints 
- 1,000                 1ms                     990.4us         1.016ms      8.8us            2ms     1.992ms    2ms 200ns-2us         
- notes: 250KsS/s, 4m view, 10K points
+ordered notes: 
+Notes: windows oscillate between 100.2/99.8 ms widths, std dev for period goes down to 5 then springs up to 30ms
+notes: 50KSamples/s, 20ms view, 10Kpoints
+notes: 250KsS/s, 4m view, 10K points
+notes: 2.5MS/s, 400us, 10K
 
- 100                    100us                  98.32us         101.7us      900ns             200us     199.2us     200.8us     180ns
- notes: 2.5MS/s, 400us, 10K
+ RPIOS Method - PIGPIOS Callbacks Library - Single LED 
+ ms_timer       Avg. Scope High Time          Min            Max      Std Dev High     Avg Period   Min       Max      Std Dev   
+ 100              100.1ms               100.0ms         100.1ms          8us             200.1ms    200.1ms   200.1     10us   
+ 10                10.06ms                10.06ms           10.06ms            1.3us     20.11ms     20.11ms    20.14ms   3.4us
+ breaks below 10ms 
 
- 10                     10us                   9.665us          10.33us     150s            20us        19.76us      20.32us    140ns
+ RPIOS Method - PIGPIOS Callbacks Library - Two Tasks 
+ 10-10          10.06                       10.06      10.07              8us            20.11      20.08ms     20.13ms     7us
+
+ RPIOS Method - PIGPIOS Thread Library - Single LED 
+ us_timer       Avg. Scope High Time          Min            Max      Std Dev High     Avg Period   Min       Max      Std Dev
+   1000                 1ms                  999.8us         1ms        60ns              2ms        2ms      2.001ms     250ns
+   100                99.97us               99.93us        100us       300ns             200us     199.9us   202.1us     120ns
+   10                 9.98us               9.933us         10.05us     22.5ns           20us       19.95us   20.05us      23ns
+   1                   1.03us              938.6ns          3.387us      50ns           2.007us    1.926us    4.392us     26ns
+
+ RPIOS Method - PIGPIOS Thread Library - Two Tasks 
+ us_timer       Avg. Scope High Time          Min            Max      Std Dev High     Avg Period   Min       Max      Std Dev
+ 1000-1000               1ms                 999.8us         1ms        80ns            2ms      2ms       2.067ms      6us
+ 100-100                99.97us              99.93us        100us       20ns           200us     199.9us   200us       20ns
+  10-10                 9.98us               9.928us        10.04us     30ns           20us      19.94us   20.04us     23ns
+   1-1                   1us                 956ns          1.037us     20ns           2.002us   1.938us   2.05us       20ns
+ 1000-1                1.008us               962ns          1.045us     22ns          1.997us    1.954us   2.064us      23ns
+
+

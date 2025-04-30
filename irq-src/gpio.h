@@ -5,8 +5,8 @@
 #include "base.h"
 
 #define ACT_LED_GPIO_BIT 10
-#define ACT_LED_GPIO 27 //42 real
-#define TEST_LED 42
+#define ACT_LED_GPIO 42 // 42 real
+#define TEST_LED 27
 
 // GPIO Register View. See "BCM2711 ARM Peripherals" Sec 5.2 page 66
 #define GPIO_OFFSET 0x200000UL

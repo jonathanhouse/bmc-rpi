@@ -1,6 +1,6 @@
 #include "irq.h"
 
-#define ENABLED_IRQS SYS_TIMER_IRQ_2 // //SYS_TIMER_IRQ_1 | SYS_TIMER_IRQ_3
+#define ENABLED_IRQS SYS_TIMER_IRQ_1 // //SYS_TIMER_IRQ_1 | SYS_TIMER_IRQ_3
 
 void enable_interrupt(unsigned int irq) {
 	 unsigned int n = irq / 32;
@@ -27,15 +27,15 @@ void enable_interrupt_controller() {
 	//  enable_interrupt(SYS_TIMER_IRQ_1); // probably okay
 
     // can literally be disabled for timer 1 and still works?? 
-	//  assign_target(1, 0); // can be 1, NOT SYS_TIMER_IRQ_1, and still works
-	//  enable_interrupt(1); // can be 1, not SYS_TIMER_IRQ_1, and still works 
+	 assign_target(1, 0); // can be 1, NOT SYS_TIMER_IRQ_1, and still works
+	 enable_interrupt(1); // can be 1, not SYS_TIMER_IRQ_1, and still works 
 
     //  write32((void*)GICD_CTLR, 0x00000000);
 
-    gic400_init((void*)(GIC400_BASE));
-     assign_target(96+2, 0); // global to all cpu interfaces, should use INT ID. If you check math on address there's 
+    // gic400_init((void*)(GIC400_BASE));
+    //  assign_target(96+1, 0); // global to all cpu interfaces, should use INT ID. If you check math on address there's 
                                 // enough space for ID0-ID1019 which exactly the total number listed in doc
-     enable_interrupt(96+2); // 
+    //  enable_interrupt(96+1); // 
 
     //  write32((void*)GICD_CTLR, 0x00000001);
 

@@ -1,0 +1,3 @@
+kernel_old=1 # tells bootloader to expect the kernel at offset 0x00000 instead of 0x80000
+disable_commandline_tags=1
+arm_64bit=1

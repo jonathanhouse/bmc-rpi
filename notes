@@ -14,6 +14,8 @@ https://github.com/babbleberry/rpi4-osdev/tree/master
 ARMv8 Instruction Quick Reference 
 https://courses.cs.washington.edu/courses/cse469/19wi/arm64.pdf
 
+Helpful issue for solving GIC related things
+https://github.com/s-matyukevich/raspberry-pi-os/issues/237
 
 1. Install a ARM GNU Toolchain from https://developer.arm.com/downloads/-/gnu-rm
 
