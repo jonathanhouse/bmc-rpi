@@ -9,3 +9,14 @@ And to install this library, one can simply use:
 ```
 sudo apt-get install pigpio
 ```
+
+Based on tutorials: 
+https://github.com/babbleberry/rpi4-osdev/tree/master/
+https://github.com/s-matyukevich/raspberry-pi-os/tree/master
+https://github.com/s-matyukevich/raspberry-pi-os/issues/237 - post on GIC-400 setup for RPI4
+
+Reference Docs:
+https://developer.arm.com/documentation/ddi0487/latest/
+https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf
+https://developer.arm.com/documentation/ddi0471/b - GIC-400 Technical Reference 
+https://developer.arm.com/documentation/ihi0048/latest/ - I think BCM2711 uses Generic Interrupt Controller with architecture v2
