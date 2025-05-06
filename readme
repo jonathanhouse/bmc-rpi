@@ -20,3 +20,4 @@ https://developer.arm.com/documentation/ddi0487/latest/
 https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf
 https://developer.arm.com/documentation/ddi0471/b - GIC-400 Technical Reference 
 https://developer.arm.com/documentation/ihi0048/latest/ - I think BCM2711 uses Generic Interrupt Controller with architecture v2
+https://github.com/rhythm16/rpi4-bare-metal/blob/main/armstub/src/armstub8.S - Similar project that seems useful I haven't yet checked out 
